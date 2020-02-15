@@ -1,2 +1,1 @@
-# rick-morty-0204
-rick and morty app
+# pokedex remake with router, switch
