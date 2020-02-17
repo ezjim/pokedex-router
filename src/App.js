@@ -1,10 +1,17 @@
-import React, { Component } from 'react'
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import React, { Component } from 'react';
+import { 
+  Route, 
+  Link, 
+BrowserRouter as Router } from 'react-router-dom';
 import Detail from './Detail';
-import PokeItem from './PokeItem'
-// import About from './About';
+// import DetailsPage from './DetailsPage';
+import About from './About';
+import HomePage from './HomePage';
 // import NotFound from './NotFound';
 import './App.css';
+import Header from './Header';
+// import SearchBar from './SearchBar';
+
 
 // Styled List Page Component that fetches characters by name on search (each Character has a react router Link to its Detail page)
 
@@ -22,10 +29,19 @@ extends Component {
       return (
           <Router>
       <div>
-        <h2>Search Bar</h2>
-          <Link to="/">homepage</Link>
+        <header>
+          <Header />
+        </header>
+        <h2>PokeDex</h2>
+        
+          <Link to="/">homepage |</Link>
+          <Link to="/About">about |</Link>
+          <Link to="/List">List </Link>
         <switch>
-          <Route exact path="/:name?" component={PokeItem} />
+          {/* <Route exact path="/:pokemon?" component={DetailsPage} /> */}
+          <Route exact path="/" component={HomePage}/>
+          <Route exact path="/pokemon/" component={Detail} />
+          <Route exact path="/About" component={About} />
         </switch>
       </div>
       </Router>
