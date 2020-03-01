@@ -1,38 +1,40 @@
-import React, { Component } from 'react'
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import React, { Component } from 'react';
+import { Route, Switch, Link, BrowserRouter as Router } from 'react-router-dom';
+import Header from './components/Header.js';
 import Detail from './Detail';
-import PokeItem from './PokeItem'
-// import About from './About';
-// import NotFound from './NotFound';
+import HomePage from './HomePage';
+import About from './components/About';
+
+//stylesheet
 import './App.css';
 
-// Styled List Page Component that fetches characters by name on search (each Character has a react router Link to its Detail page)
 
-// Styled Detail Page Component that uses this.props.match.params.whatever to make fetch on componentDidMount	
+export default class App extends Component {
+  //setting empty state
 
-// Styled Search component that uses a callback to manage input state
 
-//More Searches (by status, age, etc, using radio button options to select category)
+  render() {
 
-// Make the list page fetch respond to url (input injects term into url, and url injects term into input)	+1
-// Paging component
-export default class App
-extends Component {
-  render (){
-      return (
-          <Router>
-      <div>
-        <h2>Search Bar</h2>
-          <Link to="/">homepage</Link>
-        <switch>
-          <Route exact path="/:name?" component={PokeItem} />
-        </switch>
-      </div>
+    return (
+
+      <Router>
+        <Header />
+        <header>
+          <Link className="nav" to="/">Home</Link>
+          <Link className="nav" to="/about-me/a">About</Link>
+        </header>
+        <Switch>
+          <Route exact path="/:name?" component={HomePage} />
+
+          <Route path="/about-me/" component={About} />
+
+          <Route path="/pokemon/:pokeId" component={Detail} />
+
+        </Switch>
       </Router>
-  ) }
+    );
+  }
 }
-          //this is you waiting at the cross walk. you just pressed the please let me walk across the street button.  now you wait, happylee
-          
 
 
 
