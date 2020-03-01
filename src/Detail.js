@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
-import { getPokemon } from './api.js'
-import DetailsPage from './DetailsPage';
-
+import React, { Component } from 'react'
+import { getPokemon } from './api'
+import PokeItem from './PokeItem.js';
 
 export default class Detail extends Component {
-    state = { pokemon: {} }
+    state = { character: {} }
 
     async componentDidMount() {
-        const data = await getPokemon(this.props.match.params._Id);
-        
-        // if (data.body.results) {
+        const data = await getPokemon(this.props.match.params.pokeId);
 
+        if (data.body.results) {
 
-        this.setState({ pokemon: data.body})
-            
-        // }
+            this.setState({ character: data.body.results[0] })
+        }
+
     }
 
+
     render() {
-        const { pokemon } = this.state;
+        const { character } = this.state;
 
         return (
-            <DetailsPage pokeDex={ pokemon } />
-      );
+            <div>
+
+                <h1 className="details">Details</h1>
+                
+                <PokeItem character={character} />
+            
+            </div>
+        )
     }
 }
 

@@ -1,54 +1,56 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import request from 'superagent';
-import SearchBar from './SearchBar';
-// import DetailsPage from './DetailsPage';
-// import {Link} from 'react-router-dom'
+import PokeItem from './PokeItem.js'
+import SearchBar from './components/SearchBar';
+import { Link } from 'react-router-dom'
 
-
-export default class HomePage extends Component {
+export default class Home extends Component {
     state = {
-        searchQuery: this.props.match.params._Id,
-        pokemon: [],
+        searchQuery: this.props.match.params.name,
+        characters: [],
     }
+
     async componentDidMount() {
-        const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex/?_Id=${this.props.match.params._Id}`)
-        this.setState({pokemon: data.body})
-    }
-    handleSearch = async (e) => {
-        const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex/?_Id=${this.state.searchQuery}`)
-        
-        this.setState({
-            pokemon: data.body.results, })
-         
-            this.props.history.push(this.state.searchQuery)
+        if (this.props.match.params.name) {
+            const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex?pokemon=${this.props.match.params.name}`)
+
+            this.setState({ characters: data.body.results })
         }
-        handleChange = (e) => this.setState({ searchQuery: e.target.vaule})
-    render() {
-         
-    return(
-
-        <main>
-            <header>
-        <SearchBar
-        searchQuery={this.state.searchQuery}
-        handleSearch={this.handleSearch}
-        handleChange={this.handleChange}
-        />
-        </header>
-            <p> this is the home page</p>
-            <ul>
-                
-               
-                {
-                //  this.state.pokedex.map(pokemon =>
-                //     <Link to={`_Id/${pokemon.pokemon}`}>  
-                //        <DetailsPage pokeDex={ pokemon } />
-                //     </Link>)
-                }
-            </ul>
-        </main>
-
-    )
     }
-    
+
+    handleSearch = async (e) => {
+        e.preventDefault();
+
+        const data = await request.get(`https://alchemy-pokedex.herokuapp.com/api/pokedex/?pokemon=${this.state.searchQuery}`)
+
+        this.setState({
+            characters: data.body.results,
+        })
+
+        this.props.history.push(this.state.searchQuery)
+
+    }
+
+    handleChange = (e) => this.setState({ searchQuery: e.target.value })
+
+    render() {
+        return (
+            <div>
+                <header>
+
+                    <SearchBar searchQuery={this.state.searchQuery} handleSearch={this.handleSearch} handleChange={this.handleChange} />
+
+                </header>
+                <ul>
+
+                    {this.state.characters.map(character =>
+
+                        <Link to={`pokemon/${character.pokemon}`}>
+                            <PokeItem character={character} />
+                        </Link>)}
+
+                </ul>
+            </div>
+        );
+    }
 }
